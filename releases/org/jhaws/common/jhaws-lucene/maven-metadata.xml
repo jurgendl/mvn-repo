@@ -3,11 +3,12 @@
   <groupId>org.jhaws.common</groupId>
   <artifactId>jhaws-lucene</artifactId>
   <versioning>
-    <release>2.0.2</release>
+    <release>4.0.1</release>
     <versions>
       <version>2.0.1</version>
       <version>2.0.2</version>
+      <version>4.0.1</version>
     </versions>
-    <lastUpdated>20160325114108</lastUpdated>
+    <lastUpdated>20160325181600</lastUpdated>
   </versioning>
 </metadata>
