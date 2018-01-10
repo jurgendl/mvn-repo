@@ -3,13 +3,14 @@
   <groupId>org.jhaws.common</groupId>
   <artifactId>jhaws-g11n</artifactId>
   <versioning>
-    <release>4.0.6</release>
+    <release>4.0.7</release>
     <versions>
       <version>4.0.3</version>
       <version>4.0.4</version>
       <version>4.0.5</version>
       <version>4.0.6</version>
+      <version>4.0.7</version>
     </versions>
-    <lastUpdated>20170914115741</lastUpdated>
+    <lastUpdated>20180110112128</lastUpdated>
   </versioning>
 </metadata>
