@@ -21,7 +21,8 @@
       <version>5.0.0</version>
       <version>5.0.1</version>
       <version>5.0.2</version>
+      <version>5.0.3-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20180312100727</lastUpdated>
+    <lastUpdated>20181204161314</lastUpdated>
   </versioning>
 </metadata>
