@@ -3,12 +3,13 @@
   <groupId>org.tools.hql-builder.hibernate</groupId>
   <artifactId>hibernate-5.1</artifactId>
   <versioning>
-    <release>5.0.2</release>
+    <release>5.0.3</release>
     <versions>
       <version>5.0.0</version>
       <version>5.0.1</version>
       <version>5.0.2</version>
+      <version>5.0.3</version>
     </versions>
-    <lastUpdated>20180312100751</lastUpdated>
+    <lastUpdated>20181204163455</lastUpdated>
   </versioning>
 </metadata>
