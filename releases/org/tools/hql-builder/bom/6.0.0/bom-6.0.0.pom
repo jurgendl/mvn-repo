@@ -1,0 +1,737 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.tools.hql-builder</groupId>
+	<artifactId>bom</artifactId>
+	<version>6.0.0</version>
+	<packaging>pom</packaging>
+	<name>HqlBuilder</name>
+	<description>HqlBuilder</description>
+	<url>https://github.com/jurgendl/hql-builder</url>
+	<!--
+	http://cemerick.com/2010/08/24/hosting-maven-repos-on-github/
+
+	deploy snapshot:
+	mvn -DaltDeploymentRepository=snapshot-repo::default::file:../../mvn-repo/snapshots clean deploy
+	release:
+	mvn release:prepare
+	mvn release:perform
+	
+	deploy release:
+	((change snapshots > versions ))
+	(stash/push changes)
+	((set JAVA_HOME=C:\Program Files\Java\jdk1.8.0_181))
+	mvn release:prepare
+	git checkout -b Branch_bom-5.0.4 bom-5.0.4
+	mvn -DaltDeploymentRepository=repo::default::file:../../mvn-repo/releases clean deploy
+	git checkout master
+	mvn release:clean
+	mvn versions:set -DgenerateBackupPoms=false -P inc-test-modules,inc-web-modules -DnewVersion=5.0.5-SNAPSHOT
+	change parent version of module "hql-builder-web" and "hql-builder-demo" and "hql-builder-full"
+	delete pom.xml.releaseBackup & release.properties & pom.xml.releaseBackup & pom.xml.versionsBackup
+	((change versions > snapshots ))
+	((commit/commit/push))
+	((install snapshots))
+	-->
+	<properties>
+		<deploy.skip.demo>true</deploy.skip.demo>
+		<deploy.skip.web>true</deploy.skip.web>
+        <targetJdk.short>8</targetJdk.short>
+        <targetJdk>1.${targetJdk.short}</targetJdk>
+        <maven.compiler.source>1.${targetJdk.short}</maven.compiler.source>
+        <maven.compiler.target>1.${targetJdk.short}</maven.compiler.target>
+        <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
+        <forceRecheck>false</forceRecheck>
+        <scope.activation>provided</scope.activation>
+        <project.reporting.outputEncoding>${project.build.sourceEncoding}</project.reporting.outputEncoding>
+        <maven.javadoc.skip>true</maven.javadoc.skip>
+        <maven.site.skip>false</maven.site.skip>
+        <maven.compiler.optimize>true</maven.compiler.optimize>
+        <maven.compiler.fork>true</maven.compiler.fork>
+        <maven.compiler.verbose>true</maven.compiler.verbose>
+        <maven.compiler.debug>true</maven.compiler.debug>
+        <maven.compiler.debuglevel>lines,vars,source</maven.compiler.debuglevel>
+        <maven.javadoc.skip>true</maven.javadoc.skip>
+        <maven.test.failure.ignore>true</maven.test.failure.ignore>
+		<!-- versions checked 2017.07.03 -->
+        <version.jhaws>5.0.0</version.jhaws><!-- recent version, keep up to date -->
+		<version.hibernate>5.2</version.hibernate><!-- being tested against 5.2 -->
+		<version.groovy>2.4.12</version.groovy><!-- Java 1.8 ready, recent version, keep up to date -->
+		<version.l2fprod>7.3</version.l2fprod><!-- stale -->
+		<version.ehcache>2.10.5</version.ehcache><!-- recent version, keep up to date -->
+		<version.ehcache-spring>1.2.0</version.ehcache-spring><!-- stale -->
+        <version.resteasy>3.8.1.Final</version.resteasy>
+        <version.resteasy.jaxrs>3.0.12.Final</version.resteasy.jaxrs>
+		<version.jadira>7.0.0.CR1</version.jadira><!-- newer version available but breaks Hibernate 4.2+, testing 7.0.0.CR1 is Java 9 ready -->
+		<version.validation.api>1.1.0.Final</version.validation.api><!-- for wicket validation, see version used in Hibernate -->
+		<version.junit>4.12</version.junit><!-- recent version, keep up to date -->
+		<version.jackson>2.9.9</version.jackson><!-- 2.4.1 // 2.6.3 // 2.7.x gives problems // wanne go to 2.9.6 -->
+		<version.ostermiller>1.07.00</version.ostermiller>
+		<version.aspectj>1.8.9</version.aspectj>
+        <version.janino>2.7.8</version.janino>
+	</properties>
+	<modules>
+		<module>hql-builder-interfaces</module>
+		<module>hibernate</module>
+		<module>spring</module>
+		<module>hql-builder-annotations</module>
+		<module>hql-builder-common</module>
+		<module>hql-builder-service</module>
+		<module>hql-builder-client</module>
+	</modules>
+	<dependencyManagement>
+        <dependencies>
+    		<dependency>
+    			<groupId>javax.servlet</groupId>
+    			<artifactId>servlet-api</artifactId>
+    			<version>2.5</version>
+    			<scope>provided</scope>
+    		</dependency>
+            <!--http://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html -->
+			<dependency>
+				<groupId>org.jhaws.common</groupId>
+				<artifactId>jhaws-modules</artifactId>
+				<version>${version.jhaws}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.jhaws.common</groupId>
+				<artifactId>jhaws-spring-bom</artifactId>
+				<version>${version.jhaws}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+    		<!-- Common -->
+    		<dependency>
+    			<groupId>org.jhaws.common</groupId>
+    			<artifactId>jhaws-lang</artifactId>
+    			<version>${version.jhaws}</version>
+    		</dependency>
+    		<dependency>
+    			<groupId>org.jhaws.common</groupId>
+    			<artifactId>jhaws-io</artifactId>
+    			<version>${version.jhaws}</version>
+    		</dependency>
+    		<dependency>
+    			<groupId>org.jhaws.common</groupId>
+    			<artifactId>jhaws-logging</artifactId>
+    			<version>${version.jhaws}</version>
+    		</dependency>
+    		<dependency>
+    			<groupId>org.jhaws.common</groupId>
+    			<artifactId>jhaws-net</artifactId>
+    			<version>${version.jhaws}</version>
+    		</dependency>
+    		<dependency>
+    			<groupId>org.jhaws.common</groupId>
+    			<artifactId>jhaws-web</artifactId>
+    			<version>${version.jhaws}</version>
+    		</dependency>
+    		<dependency>
+    			<groupId>org.jhaws.common</groupId>
+    			<artifactId>jhaws-wicket</artifactId>
+    			<version>${version.jhaws}</version>
+    		</dependency>
+    		<dependency>
+    			<groupId>org.jhaws.common</groupId>
+    			<artifactId>jhaws-swing</artifactId>
+    			<version>${version.jhaws}</version>
+    		</dependency>
+    		<dependency>
+    			<groupId>junit</groupId>
+    			<artifactId>junit</artifactId>
+    			<version>${version.junit}</version>
+    			<scope>test</scope>
+    		</dependency>
+    		<dependency>
+    			<groupId>org.codehaus.janino</groupId>
+    			<artifactId>janino</artifactId>
+    			<version>${version.janino}</version>
+    		</dependency>
+    		<dependency>
+    			<groupId>org.codehaus.groovy</groupId>
+    			<artifactId>groovy-all</artifactId>
+    			<version>${version.groovy}</version>
+    		</dependency>
+    		<dependency>
+    			<groupId>net.sf.ehcache</groupId>
+    			<artifactId>ehcache</artifactId>
+    			<version>${version.ehcache}</version>
+    		</dependency>
+    		<dependency>
+    			<groupId>com.googlecode.ehcache-spring-annotations</groupId>
+    			<artifactId>ehcache-spring-annotations</artifactId>
+    			<version>${version.ehcache-spring}</version>
+    		</dependency>
+    		<!-- Service -->
+    		<dependency>
+    			<groupId>org.aspectj</groupId>
+    			<artifactId>aspectjweaver</artifactId>
+    			<version>${version.aspectj}</version>
+    		</dependency>
+    		<dependency>
+    			<groupId>org.aspectj</groupId>
+    			<artifactId>aspectjrt</artifactId>
+    			<version>${version.aspectj}</version>
+    		</dependency>
+    		<!-- WebCommon -->
+    		<!-- <dependency>
+    			<groupId>org.jboss.resteasy</groupId>
+    			<artifactId>jaxrs-api</artifactId>
+    			<version>${version.resteasy.jaxrs}</version>
+    		</dependency> -->
+    		<!-- <dependency>
+    			<groupId>org.jboss.resteasy</groupId>
+    			<artifactId>resteasy-jaxrs</artifactId>
+    			<version>${version.resteasy}</version>
+    			<exclusions>
+    				<exclusion>
+    					<artifactId>javassist</artifactId>
+    					<groupId>javassist</groupId>
+    				</exclusion>
+    			</exclusions>
+    		</dependency> -->
+    		<!-- <dependency>
+    			<groupId>org.jboss.resteasy</groupId>
+    			<artifactId>resteasy-jaxb-provider</artifactId>
+    			<version>${version.resteasy}</version>
+    			<exclusions>
+    				<exclusion>
+    					<artifactId>servlet-api</artifactId>
+    					<groupId>javax.servlet</groupId>
+    				</exclusion>
+    			</exclusions>
+    		</dependency> -->
+    		<!-- WebService -->
+    		<!-- <dependency>
+    			<groupId>org.jboss.resteasy</groupId>
+    			<artifactId>resteasy-spring</artifactId>
+    			<version>${version.resteasy}</version>
+    		</dependency> -->
+    		<!-- <dependency>
+    			<groupId>org.jboss.resteasy</groupId>
+    			<artifactId>resteasy-multipart-provider</artifactId>
+    			<version>${version.resteasy}</version>
+    			<exclusions>
+    				<exclusion>
+    					<groupId>commons-logging</groupId>
+    					<artifactId>commons-logging</artifactId>
+    				</exclusion>
+    			</exclusions>
+    		</dependency> -->
+    		<!-- <dependency>
+    			<groupId>org.jboss.resteasy</groupId>
+    			<artifactId>resteasy-html</artifactId>
+    			<version>${version.resteasy}</version>
+    		</dependency> -->
+    		<!-- <dependency>
+    			<groupId>org.jboss.resteasy</groupId>
+    			<artifactId>resteasy-json-p-provider</artifactId>
+    			<version>${version.resteasy}</version>
+    		</dependency> -->
+    		<!-- <dependency>
+    			<groupId>org.jboss.resteasy</groupId>
+    			<artifactId>resteasy-hibernatevalidator-provider</artifactId>
+    			<version>${version.resteasy}</version>
+    			<exclusions>
+    				<exclusion>
+    					<groupId>org.hibernate</groupId>
+    					<artifactId>hibernate-validator</artifactId>
+    				</exclusion>
+    			</exclusions>
+    		</dependency> -->
+    		<!-- <dependency>
+    			<groupId>org.jboss.resteasy</groupId>
+    			<artifactId>resteasy-jackson-provider</artifactId>
+    			<version>${version.resteasy}</version>
+    		</dependency> -->
+    		<!-- <dependency>
+    			<groupId>org.jboss.resteasy</groupId>
+    			<artifactId>resteasy-jackson2-provider</artifactId>
+    			<version>${version.resteasy}</version>
+    		</dependency> -->
+    		<!-- <dependency>
+    			<groupId>org.jboss.resteasy</groupId>
+    			<artifactId>resteasy-jettison-provider</artifactId>
+    			<version>${version.resteasy}</version>
+    		</dependency> -->
+    		<!-- <dependency>
+    			<groupId>org.jboss.resteasy</groupId>
+    			<artifactId>resteasy-atom-provider</artifactId>
+    			<version>${version.resteasy}</version>
+    		</dependency> -->
+    		<!-- <dependency>
+    			<groupId>org.jboss.resteasy</groupId>
+    			<artifactId>resteasy-yaml-provider</artifactId>
+    			<version>${version.resteasy}</version>
+    		</dependency> -->
+            <!-- <dependency>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>resteasy-cdi</artifactId>
+                <version>${version.resteasy}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>async-http-servlet-3.0</artifactId>
+                <version>${version.resteasy}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>resteasy-servlet-initializer</artifactId>
+                <version>${version.resteasy}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>resteasy-crypto</artifactId>
+                <version>${version.resteasy}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>resteasy-jsapi</artifactId>
+                <version>${version.resteasy}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>resteasy-wadl</artifactId>
+                <version>${version.resteasy}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>resteasy-fastinfoset-provider</artifactId>
+                <version>${version.resteasy}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>resteasy-oauth</artifactId>
+                <version>${version.resteasy}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>resteasy-links</artifactId>
+                <version>${version.resteasy}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.hibernate.javax.persistence</groupId>
+                        <artifactId>hibernate-jpa-2.0-api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency> -->
+    		<dependency>
+    			<groupId>com.fasterxml.jackson.core</groupId>
+    			<artifactId>jackson-core</artifactId>
+    			<version>${version.jackson}</version>
+    		</dependency>
+    		<dependency>
+    			<groupId>org.ostermiller</groupId>
+    			<artifactId>utils</artifactId>
+    			<version>${version.ostermiller}</version>
+    		</dependency>
+    		<!-- WebClient -->
+    		<!-- <dependency>
+    			<groupId>org.jboss.resteasy</groupId>
+    			<artifactId>resteasy-client</artifactId>
+    			<version>${version.resteasy}</version>
+    		</dependency> -->
+    		<dependency>
+    			<groupId>com.l2fprod</groupId>
+    			<artifactId>l2fprod-common-all</artifactId>
+    			<version>${version.l2fprod}</version>
+     		</dependency>
+    	</dependencies>
+	</dependencyManagement>
+	<licenses>
+		<license>
+			<name>The MIT License (MIT)</name>
+			<url>https://raw.githubusercontent.com/jurgendl/swing-easy/master/LICENSE.md</url>
+		</license>
+	</licenses>
+	<issueManagement>
+		<system>github</system>
+		<url>https://github.com/jurgendl/hql-builder/issues</url>
+	</issueManagement>
+	<!-- http://maven.apache.org/guides/introduction/introduction-to-profiles.html -->
+	<profiles>
+		<profile>
+			<id>src</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<version>3.1.0</version>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>jar-no-fork</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<!-- 
+				"mvn clean package -P nodebuginfo"
+				wil create an optimized (without debugging info) jar: hql-builder-nodebug-{version}.jar
+				
+				"mvn clean package"
+				wil create a jar without debugging info: hql-builder-{version}.jar
+			 -->
+			<id>nodebuginfo</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<build>
+				<finalName>${project.artifactId}-nodebuginfo-${project.version}</finalName>
+				<plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <version>3.8.0</version>
+                        <configuration>
+        					<!--<release>${targetJdk.short}</release>-->
+                            <fork>false</fork>
+                            <source>${targetJdk}</source>
+                            <target>${targetJdk}</target>
+                            <optimize>true</optimize>
+                            <verbose>false</verbose>
+                            <encoding>${project.build.sourceEncoding}</encoding>
+                            <debug>true</debug>
+                            <debuglevel>lines,vars,source</debuglevel>
+                            <compilerArgument>-parameters</compilerArgument>
+                        </configuration>
+                    </plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>inc-test-modules</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<modules>
+				<module>hql-builder-demo</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>inc-web-modules</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<modules>
+				<module>hql-builder-web</module>
+			</modules>
+		</profile>
+	</profiles>
+	<distributionManagement>
+		<repository>
+			<id>repo</id>
+			<url>https://github.com/jurgendl/mvn-repo/raw/master/releases</url>
+		</repository>
+		<snapshotRepository>
+			<id>snapshot-repo</id>
+			<url>https://github.com/jurgendl/mvn-repo/raw/master/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+	<inceptionYear>2012</inceptionYear>
+	<developers>
+		<developer>
+			<id />
+			<timezone>+1</timezone>
+			<name>jurgendl</name>
+			<roles>
+				<role>Project owner</role>
+			</roles>
+		</developer>
+	</developers>
+	<contributors />
+	<scm>
+		<connection>scm:git:git@github.com:jurgendl/hql-builder.git</connection>
+		<url>scm:git:git@github.com:jurgendl/hql-builder.git</url>
+		<developerConnection>scm:git:git@github.com:jurgendl/hql-builder.git</developerConnection>
+		<tag>bom-6.0.0</tag>
+	</scm>
+	<repositories>
+		<repository>
+			<id>jurgendl.github.com</id>
+			<url>http://github.com/jurgendl/mvn-repo/raw/master/releases/</url>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+		</repository>
+	</repositories>
+	<build>
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-webdav-jackrabbit</artifactId>
+				<version>1.0</version>
+			</extension>
+		</extensions>
+		<plugins>
+			<!-- http://stackoverflow.com/questions/4725668/how-to-deploy-snapshot-with-sources-and-javadoc -->
+			<plugin>
+			  <artifactId>maven-source-plugin</artifactId>
+			  <executions>
+				<execution>
+				  <id>attach-sources</id>
+				  <phase>deploy</phase>
+				  <goals><goal>jar-no-fork</goal></goals> 
+				</execution>
+			  </executions>
+			</plugin>
+			<plugin> 
+			  <!-- explicitly define maven-deploy-plugin after other to force exec order -->
+			  <artifactId>maven-deploy-plugin</artifactId> 
+			  <version>2.8.2</version>
+			  <executions> 
+				<execution> 
+				  <id>deploy</id>
+				  <phase>deploy</phase>
+				  <goals><goal>deploy</goal></goals> 
+				</execution> 
+			  </executions> 
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5.3</version>
+				<configuration>
+					<useReleaseProfile>false</useReleaseProfile>
+					<releaseProfiles>src</releaseProfiles>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-scm-plugin</artifactId>
+				<version>1.9</version>
+				<configuration>
+					<connectionType>developerConnection</connectionType>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.7.1</version>
+				<configuration>
+					<locales>en</locales>
+					<generateSitemap>true</generateSitemap>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.4</version>
+			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.0</version>
+                <configuration>
+					<!--<release>${targetJdk.short}</release>-->
+                    <fork>false</fork>
+                    <source>${targetJdk}</source>
+                    <target>${targetJdk}</target>
+                    <optimize>true</optimize>
+                    <verbose>false</verbose>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <debug>true</debug>
+                    <debuglevel>lines,vars,source</debuglevel>
+                    <compilerArgument>-parameters</compilerArgument>
+                </configuration>
+            </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M3</version><!--$NO-MVN-MAN-VER$ -->
+                <configuration>
+                    <testFailureIgnore>false</testFailureIgnore>
+                    <forkMode>pertest</forkMode>
+                    <useSystemClassLoader>false</useSystemClassLoader>
+                    <argLine>--illegal-access=permit</argLine>
+					<forkCount>1</forkCount>
+					<reuseForks>true</reuseForks>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<version>2.4.0</version>
+				<extensions>true</extensions>
+				<configuration>
+					<instructions>
+						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+						<Bundle-Version>${project.version}</Bundle-Version>
+					</instructions>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<!-- mvn site -->
+	<reporting>
+		<plugins>
+			<!--<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>2.6</version>
+			</plugin>-->
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-site-plugin</artifactId>
+              <version>3.7.1</version>
+            </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>2.9</version>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>dependencies</report>
+							<report>project-team</report>
+							<report>mailing-list</report>
+							<report>cim</report>
+							<report>issue-tracking</report>
+							<report>license</report>
+							<report>scm</report>
+							<report>dependency-convergence</report>
+							<report>dependency-info</report>
+							<report>dependency-management</report>
+							<report>distribution-management</report>
+							<report>index</report>
+							<report>modules</report>
+							<report>plugin-management</report>
+							<report>plugins</report>
+							<report>summary</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+			<plugin>
+				<!--https://jeremylong.github.io/DependencyCheck/dependency-check-maven/index.html-->
+				<!--https://www.owasp.org/index.php/OWASP_Dependency_Check-->
+				<!--https://www.owasp.org/index.php/Top_10_2013-A9-Using_Components_with_Known_Vulnerabilities-->
+				<groupId>org.owasp</groupId>
+				<artifactId>dependency-check-maven</artifactId>
+				<version>3.3.1</version>
+				<!-- in build/plugins -->
+				<configuration>
+					<failBuildOnCVSS>8</failBuildOnCVSS>
+					<externalReport>false</externalReport>
+                    <suppressionFiles>
+                        <suppressionFile>owasp-ignore.xml</suppressionFile>
+                    </suppressionFiles>
+                </configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-changes-plugin</artifactId>
+				<version>2.12.1</version>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>changes-report</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>3.10.0</version>
+				<configuration>
+                    <rulesets>
+                        <ruleset>/rulesets/basic.xml</ruleset>
+                        <ruleset>/rulesets/unusedcode.xml</ruleset>
+                        <ruleset>/rulesets/coupling.xml</ruleset>
+                        <!--<ruleset>/rulesets/optimizations.xml</ruleset> -->
+                        <ruleset>/rulesets/design.xml</ruleset>
+                        <ruleset>/rulesets/sunsecure.xml</ruleset>
+                        <ruleset>/rulesets/strictexception.xml</ruleset>
+                        <ruleset>/rulesets/javabeans.xml</ruleset>
+                        <ruleset>/rulesets/strings.xml</ruleset>
+                        <ruleset>/rulesets/imports.xml</ruleset>
+                        <ruleset>/rulesets/clone.xml</ruleset>
+                        <!--<ruleset>/rulesets/naming.xml</ruleset> -->
+                        <ruleset>/rulesets/junit.xml</ruleset>
+                        <ruleset>/rulesets/codesize.xml</ruleset>
+                    </rulesets>
+					<!--<targetjdk>${targetJdk}</targetjdk>-->
+					<format>xml</format>
+					<linkXref>true</linkXref>
+					<sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
+					<minimumTokens>100</minimumTokens>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clover-plugin</artifactId>
+				<version>2.4</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>2.22.0</version>
+				<configuration>
+					<testFailureIgnore>true</testFailureIgnore>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jdepend-maven-plugin</artifactId>
+				<version>2.0</version>
+				<configuration>
+					<projectDirectory>${basedir}</projectDirectory>
+					<classDirectory>${project.build.directory}/classes</classDirectory>
+				</configuration>
+			</plugin>
+			<!-- makes site size very large -->
+			<!--
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<version>2.5</version>
+			</plugin>
+			-->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>taglist-maven-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<multipleLineComments>true</multipleLineComments>
+					<sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
+					<tags>
+						<tag>TODO</tag>
+						<tag>FIXME</tag>
+                        <tag>XXX</tag>
+					</tags>
+				</configuration>
+			</plugin>
+			<!-- makes site size very large -->
+			<!-- 
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.0.1</version>
+				<configuration>
+					<links>
+						<link>http://docs.oracle.com/javase/7/docs/api/</link>
+					</links>
+					<linksource>true</linksource>
+					<source>${targetJdk}</source>
+					<splitindex>true</splitindex>
+					<use>true</use>
+					<verbose>false</verbose>
+					<version>true</version>
+					<detectLinks>true</detectLinks>
+				</configuration>
+			</plugin>
+			 -->
+		</plugins>
+	</reporting>
+</project>

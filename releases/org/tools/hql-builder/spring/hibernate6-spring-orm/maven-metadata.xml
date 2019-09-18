@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>org.tools.hql-builder.spring</groupId>
+  <artifactId>hibernate6-spring-orm</artifactId>
+  <versioning>
+    <release>6.0.0</release>
+    <versions>
+      <version>6.0.0</version>
+    </versions>
+    <lastUpdated>20190918105150</lastUpdated>
+  </versioning>
+</metadata>
