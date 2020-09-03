@@ -3,10 +3,11 @@
   <groupId>org.tools.hql-builder.spring</groupId>
   <artifactId>hibernate6-spring-orm</artifactId>
   <versioning>
-    <release>6.0.0</release>
+    <release>6.0.1</release>
     <versions>
       <version>6.0.0</version>
+      <version>6.0.1</version>
     </versions>
-    <lastUpdated>20190918105150</lastUpdated>
+    <lastUpdated>20200903145548</lastUpdated>
   </versioning>
 </metadata>
