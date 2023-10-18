@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>org.tools.hql-builder.hibernate</groupId>
+  <artifactId>hibernate-5.6</artifactId>
+  <versioning>
+    <versions>
+      <version>6.0.3-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20231018104144</lastUpdated>
+  </versioning>
+</metadata>

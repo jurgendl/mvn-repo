@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata modelVersion="1.1.0">
+  <groupId>org.tools.hql-builder</groupId>
+  <artifactId>hql-builder-service</artifactId>
+  <version>6.0.3-SNAPSHOT</version>
+  <versioning>
+    <snapshot>
+      <timestamp>20231018.104201</timestamp>
+      <buildNumber>2</buildNumber>
+    </snapshot>
+    <lastUpdated>20231018104201</lastUpdated>
+    <snapshotVersions>
+      <snapshotVersion>
+        <extension>jar</extension>
+        <value>6.0.3-20231018.104201-1</value>
+        <updated>20231018104201</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <extension>pom</extension>
+        <value>6.0.3-20231018.104201-1</value>
+        <updated>20231018104201</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <classifier>sources</classifier>
+        <extension>jar</extension>
+        <value>6.0.3-20231018.104201-1</value>
+        <updated>20231018104201</updated>
+      </snapshotVersion>
+    </snapshotVersions>
+  </versioning>
+</metadata>
